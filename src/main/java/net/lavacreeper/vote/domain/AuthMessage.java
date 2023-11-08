@@ -1,2 +1,4 @@
-package net.lavacreeper.vote.domain;public class AuthMessage {
+package net.lavacreeper.vote.domain;
+
+public class AuthMessage {
 }

@@ -1,2 +1,4 @@
-package net.lavacreeper.vote.domain;public class VoteDetail {
+package net.lavacreeper.vote.domain;
+
+public class VoteDetail {
 }

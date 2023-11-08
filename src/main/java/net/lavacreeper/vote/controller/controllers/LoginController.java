@@ -1,4 +1,4 @@
-package net.lavacreeper.vote.controller;
+package net.lavacreeper.vote.controller.controllers;
 
 
 import org.springframework.stereotype.Controller;
