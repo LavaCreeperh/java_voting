@@ -1,16 +1,16 @@
 package net.lavacreeper.vote.domain;
 
-public class LoginMessage {
-    private String message;
+public class RegisterMessage {
+    String message;
+    boolean success;
 
-    private boolean success;
-
-    public LoginMessage() {
+    public String getMessage() {
+        return message;
     }
 
     @Override
     public String toString() {
-        return "LoginMessage{" +
+        return "RegisterMessage{" +
                 "message='" + message + '\'' +
                 ", success=" + success +
                 '}';
@@ -27,18 +27,4 @@ public class LoginMessage {
     public void setSuccess(boolean success) {
         this.success = success;
     }
-
-    public LoginMessage(String message, boolean success) {
-        this.message = message;
-        this.success = success;
-    }
-
-    public LoginMessage(String message) {
-        this.message = message;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
 }

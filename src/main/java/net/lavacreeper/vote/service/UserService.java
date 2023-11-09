@@ -1,8 +1,6 @@
 package net.lavacreeper.vote.service;
 
-import net.lavacreeper.vote.domain.AuthMessage;
-import net.lavacreeper.vote.domain.LoginMessage;
-import net.lavacreeper.vote.domain.User;
+import net.lavacreeper.vote.domain.*;
 
 public interface UserService {
     public User getByUsername(String username);
@@ -12,5 +10,6 @@ public interface UserService {
 
     public LoginMessage login(AuthMessage authMessage);
 
+    public RegisterMessage register(RegisterJson registerJson);
 
 }

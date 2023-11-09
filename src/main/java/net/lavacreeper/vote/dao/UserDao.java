@@ -20,5 +20,8 @@ public interface UserDao {
     @Select("SELECT * FROM users WHERE email = #{email}")
     public User getByEmail(String email);
 
+    @Select("SELECT * FROM users WHERE username = #{username} AND password = #{password}")
+    public User loginMethod(String username, String password);
+
 
 }
