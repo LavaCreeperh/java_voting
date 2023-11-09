@@ -19,5 +19,9 @@ public interface PollsService {
 
     public List<Polls> getPollsByUserId(Integer userId);
 
+    public boolean deletePollsById(Integer id);
+
+    public boolean updatePollsById(Polls polls);
+
 
 }

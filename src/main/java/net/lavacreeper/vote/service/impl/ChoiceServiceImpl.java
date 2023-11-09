@@ -27,8 +27,8 @@ public class ChoiceServiceImpl implements ChoiceService {
     }
 
     @Override
-    public boolean getByPollsId() {
-        return false;
+    public List<Choices> getByPollsId(Integer id) {
+        return choiceDao.getByPollsId(id);
     }
 
     @Override
@@ -38,5 +38,15 @@ public class ChoiceServiceImpl implements ChoiceService {
             save(choices);
         }
         return true;
+    }
+
+    @Override
+    public boolean deleteByPollsId(Integer id) {
+        return false;
+    }
+
+    @Override
+    public boolean updateByPollsId(List<Choices> list) {
+        return false;
     }
 }

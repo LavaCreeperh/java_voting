@@ -20,4 +20,7 @@ public interface ChoiceDao {
 
     @Select("select * from choices where poll_id = #{poll_id}")
     public List<Choices> getByPollsId(Integer poll_id);
+
+    @Delete("delete from choices where id = #{id}")
+    public boolean delete(Integer id);
 }
