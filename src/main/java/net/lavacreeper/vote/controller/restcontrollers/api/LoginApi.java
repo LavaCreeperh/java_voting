@@ -29,10 +29,11 @@ public class LoginApi {
             }
             LoginMessage message = userService.login(authMessage);
             if (message.isSuccess()) {
-                HttpSession session = request.getSession();
-                session.setMaxInactiveInterval(60 * 60 * 24 * 7);
-                session.setAttribute("USER", authMessage.getUsername());
-
+                if (authMessage.isRememberMe()) {
+                    HttpSession session = request.getSession();
+                    session.setMaxInactiveInterval(60 * 60 * 24 * 7);
+                    session.setAttribute("USER", authMessage.getUsername());
+                }
                 return message;
 
 

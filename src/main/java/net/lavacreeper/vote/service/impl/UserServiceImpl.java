@@ -60,6 +60,29 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public RegisterMessage register(RegisterJson registerJson) {
-        return null;
+        String username = registerJson.getUsername();
+        String password = registerJson.getPassword();
+        String email = registerJson.getEmail();
+        if (existsByUsername(username)) {
+            return new RegisterMessage("用户名已存在", false);
+        }
+        if (userDao.getByEmail(email) != null) {
+            return new RegisterMessage("邮箱已存在", false);
+        }
+        String hashedPassword = HashUtils.calculateSHA256(password);
+        User user = new User(username, email, hashedPassword);
+        if (save(user)) {
+            return new RegisterMessage("注册成功", true);
+        }
+        return new RegisterMessage("注册失败", false);
+
+    }
+
+    @Override
+    public IfExistsApiMessage checkIfUsernameExists(String username) {
+        if (existsByUsername(username)) {
+            return new IfExistsApiMessage("用户名已存在", true);
+        }
+        return new IfExistsApiMessage("用户名不存在", false);
     }
 }

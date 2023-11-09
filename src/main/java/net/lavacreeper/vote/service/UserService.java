@@ -12,4 +12,6 @@ public interface UserService {
 
     public RegisterMessage register(RegisterJson registerJson);
 
+    public IfExistsApiMessage checkIfUsernameExists(String username);
+
 }

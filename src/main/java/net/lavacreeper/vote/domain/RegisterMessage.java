@@ -4,8 +4,16 @@ public class RegisterMessage {
     String message;
     boolean success;
 
+    public RegisterMessage() {
+    }
+
     public String getMessage() {
         return message;
+    }
+
+    public RegisterMessage(String message, boolean success) {
+        this.message = message;
+        this.success = success;
     }
 
     @Override
