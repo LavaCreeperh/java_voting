@@ -1,6 +1,8 @@
 package net.lavacreeper.vote.service.impl;
 
 import net.lavacreeper.vote.dao.UserDao;
+import net.lavacreeper.vote.domain.AuthMessage;
+import net.lavacreeper.vote.domain.LoginMessage;
 import net.lavacreeper.vote.domain.User;
 import net.lavacreeper.vote.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,5 +40,10 @@ public class UserServiceImpl implements UserService {
         }
         bookDao.save(user);
         return user.getId() != null;
+    }
+
+    @Override
+    public LoginMessage login(AuthMessage authMessage) {
+        return null;
     }
 }

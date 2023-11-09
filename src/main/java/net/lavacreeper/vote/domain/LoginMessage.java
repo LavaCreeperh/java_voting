@@ -1,5 +1,5 @@
 package net.lavacreeper.vote.domain;
 
-public class AuthMessage {
+public class LoginMessage {
 
 }
