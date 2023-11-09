@@ -42,3 +42,18 @@ CREATE TABLE IF NOT EXISTS `votes` (
                                        FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON DELETE CASCADE,
                                        FOREIGN KEY (`choice_id`) REFERENCES `choices`(`id`) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+-- 第一步：添加新列
+ALTER TABLE votes
+    ADD COLUMN poll_id INT UNSIGNED;
+
+-- 第二步：建立外键约束
+ALTER TABLE votes
+    ADD FOREIGN KEY (poll_id) REFERENCES polls (id);
+
+-- 第三步：更新现有记录
+UPDATE votes
+SET poll_id = (SELECT polls.id
+               FROM polls
+                        JOIN choices ON polls.id = choices.poll_id
+               WHERE choices.id = votes.choice_id);

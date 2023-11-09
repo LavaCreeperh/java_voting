@@ -14,4 +14,6 @@ public interface ChoiceService {
     public boolean deleteByPollsId(Integer id);
 
     public boolean updateByPollsId(List<Choices> list);
+
+    public Choices getChoiceById(Integer id);
 }

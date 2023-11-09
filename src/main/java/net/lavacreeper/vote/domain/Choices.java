@@ -10,6 +10,15 @@ public class Choices {
     private Integer poll_id;
     private String description;
 
+    public Choices(Integer poll_id, String description) {
+        this.poll_id = poll_id;
+        this.description = description;
+    }
+
+    public Choices(String description) {
+        this.description = description;
+    }
+
     @Override
     public String toString() {
         return "Choices{" +
@@ -28,6 +37,7 @@ public class Choices {
     public void setId(Integer id) {
         this.id = id;
     }
+
 
     public Integer getPoll_id() {
         return poll_id;

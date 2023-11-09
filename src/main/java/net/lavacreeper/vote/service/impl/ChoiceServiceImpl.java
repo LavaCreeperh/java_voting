@@ -49,4 +49,9 @@ public class ChoiceServiceImpl implements ChoiceService {
     public boolean updateByPollsId(List<Choices> list) {
         return false;
     }
+
+    @Override
+    public Choices getChoiceById(Integer id) {
+        return choiceDao.getChoiceById(id);
+    }
 }

@@ -11,7 +11,7 @@ import java.util.List;
 @Mapper
 public interface ChoiceDao {
 
-    @Insert("insert into choices (poll_id, description) VALUES (#{polls_id}, #{description})")
+    @Insert("insert into choices (poll_id, description) VALUES (#{poll_id}, #{description})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id", statementType = StatementType.PREPARED)
     public void save(Choices choices);
 
@@ -23,4 +23,7 @@ public interface ChoiceDao {
 
     @Delete("delete from choices where id = #{id}")
     public boolean delete(Integer id);
+
+    @Select("select * from choices where id = #{id}")
+    public Choices getChoiceById(Integer id);
 }

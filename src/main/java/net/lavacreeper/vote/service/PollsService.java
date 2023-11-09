@@ -1,5 +1,6 @@
 package net.lavacreeper.vote.service;
 
+import net.lavacreeper.vote.domain.Choices;
 import net.lavacreeper.vote.domain.Polls;
 import org.apache.tomcat.jni.Poll;
 
@@ -21,7 +22,9 @@ public interface PollsService {
 
     public boolean deletePollsById(Integer id);
 
-    public boolean updatePollsById(Polls polls);
+    public boolean updatePollsByJson(Polls polls, List<Choices> choices);
+
+    public boolean createPollsByJson(Polls polls, List<Choices> choices);
 
 
 }
