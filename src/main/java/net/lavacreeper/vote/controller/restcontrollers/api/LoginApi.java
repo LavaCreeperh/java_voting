@@ -33,6 +33,7 @@ public class LoginApi {
                     HttpSession session = request.getSession();
                     session.setMaxInactiveInterval(60 * 60 * 24 * 7);
                     session.setAttribute("USER", authMessage.getUsername());
+                    session.setAttribute("USER_ID", userService.getByUsername(authMessage.getUsername()).getId());
                 }
                 return message;
 

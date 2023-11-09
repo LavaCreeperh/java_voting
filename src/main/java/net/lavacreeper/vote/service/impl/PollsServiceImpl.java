@@ -79,7 +79,6 @@ public class PollsServiceImpl implements PollsService {
             return true;
 
         } catch (Exception e) {
-            System.out.println(e);
             throw e;
         }
     }

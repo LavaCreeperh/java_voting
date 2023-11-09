@@ -29,7 +29,6 @@ public class CreatePollApi {
             pollsService.createPollsByJson(poll, choices);
             return new Message("创建成功", true);
         } catch (Exception e) {
-            System.out.println(e);
             return new Message("创建失败", false);
         }
     }
