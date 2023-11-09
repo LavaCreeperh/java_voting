@@ -1,4 +1,4 @@
-package net.lavacreeper.vote.controller.restcontrollers.api;
+package net.lavacreeper.vote.controller.restcontrollers.api.everyone;
 
 
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlSetTransactionStatement;

@@ -1,4 +1,4 @@
-package net.lavacreeper.vote.controller.restcontrollers.api;
+package net.lavacreeper.vote.controller.restcontrollers.api.loginuser;
 
 import net.lavacreeper.vote.domain.IdJson;
 import net.lavacreeper.vote.domain.Message;
@@ -24,6 +24,9 @@ public class IfVoted {
         //从session中获取到当前登陆用户的id
         try {
             String userid = (String) session.getAttribute("USER");
+            if (userid == null) {
+                return new Message("请先登陆", false);
+            }
             return voteService.hasVoted(userid, idJson.getId());
         } catch (Exception e) {
             return new Message("请先登陆", false);

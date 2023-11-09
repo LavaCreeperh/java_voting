@@ -24,7 +24,7 @@ public interface PollsService {
 
     public boolean updatePollsByJson(Polls polls, List<Choices> choices);
 
-    public boolean createPollsByJson(Polls polls, List<Choices> choices);
+    public boolean createPollsByJson(Polls polls, List<Choices> choices, Integer userId);
 
 
 }

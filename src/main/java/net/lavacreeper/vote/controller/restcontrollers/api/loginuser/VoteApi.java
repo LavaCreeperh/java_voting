@@ -1,4 +1,4 @@
-package net.lavacreeper.vote.controller.restcontrollers.api;
+package net.lavacreeper.vote.controller.restcontrollers.api.loginuser;
 
 import net.lavacreeper.vote.domain.IdJson;
 import net.lavacreeper.vote.domain.Message;
@@ -22,8 +22,8 @@ public class VoteApi {
 
     @PostMapping("/api/vote")
     public Message vote(@RequestBody IdJson id, HttpSession session) {
-        //TODO 确保用户登陆
-        //TODO 确保用户没有在这个poll中投过票
+        // 确保用户登陆
+        // 确保用户没有在这个poll中投过票
         try {
             String username = (String) session.getAttribute("USER");
             if (username == null) {

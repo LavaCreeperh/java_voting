@@ -40,7 +40,7 @@ class VoteApplicationTests {
         choices.add(new Choices("烤鸭"));
         boolean result;
         try {
-            boolean res = pollsService.createPollsByJson(polls, choices);
+            boolean res = pollsService.createPollsByJson(polls, choices, 1);
         } catch (Exception e) {
             System.out.println(e);
         }

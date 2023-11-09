@@ -67,8 +67,9 @@ public class PollsServiceImpl implements PollsService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public boolean createPollsByJson(Polls polls, List<Choices> choices) {
+    public boolean createPollsByJson(Polls polls, List<Choices> choices, Integer userId) {
         try {
+            polls.setCreator_id(userId);
             save(polls);
             Integer poll_id = polls.getId();
 //            int a = 1/0;

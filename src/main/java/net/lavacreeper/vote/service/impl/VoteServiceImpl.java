@@ -25,7 +25,7 @@ public class VoteServiceImpl implements VoteService {
         //TODO 验证用户有没有投过票
         try {
             if (voteDao.hasVoted(user_id, choiceDao.getChoiceById(choice_id).getPoll_id()) != 0) {
-                return new Message("已过投票", true);
+                return new Message("你已经投过票了", true);
             }
             Integer question_id = choiceDao.getChoiceById(choice_id).getPoll_id();
             voteDao.vote(user_id, choice_id, question_id);
