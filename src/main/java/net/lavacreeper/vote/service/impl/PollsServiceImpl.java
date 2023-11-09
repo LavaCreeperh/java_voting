@@ -18,18 +18,19 @@ public class PollsServiceImpl implements PollsService {
     @Autowired
     ChoiceDao choiceDao;
 
+
     @Override
     public boolean save(Polls polls) {
         pollsDao.save(polls);
         return polls.getId() != null;
     }
 
-    //以下是通过userid获取到Polls
     @Override
     public Polls getPollsById(Integer id) {
-        return null;
+        return pollsDao.getPollsById(id);
     }
 
+    //以下是通过userid获取到Polls
     @Override
     public List<Polls> getPollsByUserId(Integer userId) {
         return pollsDao.getPollsByUserId(userId);
@@ -40,15 +41,11 @@ public class PollsServiceImpl implements PollsService {
     public boolean deletePollsById(Integer id) {
         try {
             pollsDao.delete(id);
-            List<Choices> choices = choiceDao.getByPollsId(id);
-            for (Choices choice : choices) {
-                choiceDao.delete(choice.getId());
-                return true;
-            }
+            return true;
         } catch (Exception e) {
+            System.out.println(e);
             return false;
         }
-        return false;
     }
 
     @Override

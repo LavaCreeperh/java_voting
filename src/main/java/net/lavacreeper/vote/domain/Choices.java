@@ -10,6 +10,12 @@ public class Choices {
     private Integer poll_id;
     private String description;
 
+    public Choices(Integer id, Integer poll_id, String description) {
+        this.id = id;
+        this.poll_id = poll_id;
+        this.description = description;
+    }
+
     public Choices(Integer poll_id, String description) {
         this.poll_id = poll_id;
         this.description = description;
