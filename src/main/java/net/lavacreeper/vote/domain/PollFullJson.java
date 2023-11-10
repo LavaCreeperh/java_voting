@@ -2,7 +2,7 @@ package net.lavacreeper.vote.domain;
 
 import java.util.List;
 
-public class UpdateJson {
+public class PollFullJson {
     private Polls polls;
     private List<Choices> choices;
 
