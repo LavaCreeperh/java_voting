@@ -8,8 +8,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+
 <div class="container">
     <h2 class="mt-5">Your Created Polls</h2>
+    <a href="/create" class="btn btn-success mb-3">Create New Poll</a>
     <div id="pollsList" class="mt-4"></div>
 </div>
 
@@ -30,10 +32,19 @@
                                 <h5 class="card-title">Poll: ${poll.question}</h5>
                                 <p class="card-text">Created at: ${poll.created_at}</p>
                                 <p class="card-text">End date: ${poll.end_date}</p>
-                                <a href="/poll/${poll.id}" class="btn btn-primary">View Poll</a>
+                                <button class="btn btn-danger deleteBtn" data-id="${poll.id}">Delete</button>
+                                <a href="/change/${poll.id}" class="btn btn-primary">Modify</a>
                             </div>
                         `;
                         pollsList.appendChild(pollElement);
+                    });
+                    document.querySelectorAll('.deleteBtn').forEach(button => {
+                        button.addEventListener('click', function () {
+                            var pollId = this.getAttribute('data-id');
+                            if (confirm('Are you sure you want to delete this poll?')) {
+                                deletePoll(pollId);
+                            }
+                        });
                     });
                 }
             })
@@ -42,6 +53,28 @@
                 pollsList.innerHTML = '<p>Error loading polls.</p>';
             });
     });
+
+    function deletePoll(pollId) {
+        fetch('/api/deletePolls', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({id: pollId})
+        })
+            .then(response => {
+                if (response.ok) {
+                    alert('Poll deleted successfully!');
+                    location.reload(); // Reload page to update the list of polls
+                } else {
+                    alert('Error deleting poll.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Error deleting poll.');
+            });
+    }
 </script>
 </body>
 </html>

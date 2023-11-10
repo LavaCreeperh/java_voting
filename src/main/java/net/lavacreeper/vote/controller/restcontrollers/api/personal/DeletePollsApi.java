@@ -7,6 +7,7 @@ import net.lavacreeper.vote.service.ChoiceService;
 import net.lavacreeper.vote.service.PollsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpSession;
@@ -19,7 +20,7 @@ public class DeletePollsApi {
     PollsService pollsService;
 
     @PostMapping("/api/deletePolls")
-    public Message deletePolls(IdJson id, HttpSession session) {
+    public Message deletePolls(@RequestBody IdJson id, HttpSession session) {
         //TODO 确保用户登陆
         try {
             Integer userId = (Integer) session.getAttribute("USER_ID");
