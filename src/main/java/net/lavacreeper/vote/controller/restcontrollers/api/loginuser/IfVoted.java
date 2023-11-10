@@ -20,7 +20,7 @@ public class IfVoted {
     @PostMapping("/api/ifvoted")
     public Message ifVoted(@RequestBody IdJson idJson, HttpServletRequest session) {
         //用session中的userid查询vote表，确认是否在这个poll中投过票
-        //TODO 确保用户登陆
+        // 确保用户登陆
         //从session中获取到当前登陆用户的id
         try {
             String userid = (String) session.getAttribute("USER");

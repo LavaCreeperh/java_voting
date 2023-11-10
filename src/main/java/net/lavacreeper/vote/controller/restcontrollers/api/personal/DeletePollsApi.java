@@ -21,7 +21,7 @@ public class DeletePollsApi {
 
     @PostMapping("/api/deletePolls")
     public Message deletePolls(@RequestBody IdJson id, HttpSession session) {
-        //TODO 确保用户登陆
+        //确保用户登陆
         try {
             Integer userId = (Integer) session.getAttribute("USER_ID");
             if (userId == null) {
