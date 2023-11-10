@@ -8,6 +8,7 @@ import net.lavacreeper.vote.service.ChoiceService;
 import net.lavacreeper.vote.service.PollsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
@@ -22,7 +23,7 @@ public class CreatePollApi {
     ChoiceService choiceService;
 
     @PostMapping("/api/createPoll")
-    public Message createPoll(UpdateJson updateJson, HttpSession session) {
+    public Message createPoll(@RequestBody UpdateJson updateJson, HttpSession session) {
         //确保非空
         Integer user_id = (Integer) session.getAttribute("user_id");
         if (user_id == null) {
