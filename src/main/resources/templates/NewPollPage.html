@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Poll</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            var choiceCount = 1;
+
+            // 添加新的选择项
+            $('#addChoice').click(function () {
+                choiceCount++;
+                $('#choices').append('<div class="input-group mb-3" id="choice' + choiceCount + '"><input type="text" class="form-control" placeholder="Choice ' + choiceCount + ' Description" name="choiceDescription[]"><div class="input-group-append"><button class="btn btn-outline-secondary removeChoice" type="button">Remove</button></div></div>');
+            });
+
+            // 移除选择项
+            $('body').on('click', '.removeChoice', function () {
+                $(this).closest('.input-group').remove();
+            });
+
+            // 提交表单
+            $('#createPollForm').submit(function (event) {
+                event.preventDefault();
+                var pollData = {
+                    polls: {question: $('#question').val()},
+                    choices: []
+                };
+                $('input[name="choiceDescription[]"]').each(function () {
+                    pollData.choices.push({description: $(this).val()});
+                });
+
+                $.ajax({
+                    type: "POST",
+                    url: "/api/createPoll",
+                    contentType: "application/json",
+                    data: JSON.stringify(pollData),
+                    success: function (response) {
+                        alert(response.message);
+                        if (response.success) {
+                            window.location.href = "/main";
+                        }
+                    },
+                    error: function () {
+                        alert("An error occurred. Please try again.");
+                    }
+                });
+            });
+        });
+    </script>
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Create a New Poll</h2>
+    <form id="createPollForm">
+        <div class="form-group">
+            <label for="question">Poll Question</label>
+            <input type="text" class="form-control" id="question" required>
+        </div>
+        <div id="choices">
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" placeholder="Choice 1 Description" name="choiceDescription[]"
+                       required>
+            </div>
+        </div>
+        <div class="d-flex justify-content-between">
+            <button type="button" id="addChoice" class="btn btn-primary mb-3">Add Choice</button>
+            <button type="submit" class="btn btn-success">Create Poll</button>
+        </div>
+    </form>
+</div>
+</body>
+</html>
