@@ -24,6 +24,7 @@ public class VoteApi {
     public Message vote(@RequestBody IdJson id, HttpSession session) {
         // 确保用户登陆
         // 确保用户没有在这个poll中投过票
+        //TODO 过期的polls不能投票
         try {
             String username = (String) session.getAttribute("USER");
             if (username == null) {

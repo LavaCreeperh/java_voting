@@ -3,13 +3,14 @@ package net.lavacreeper.vote.controller.restcontrollers.api.personal;
 
 import net.lavacreeper.vote.domain.IdJson;
 import net.lavacreeper.vote.domain.Message;
+import net.lavacreeper.vote.domain.VoteDetail;
+import net.lavacreeper.vote.service.PollsService;
 import org.apache.coyote.Request;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.Objects;
 
 //TODO 获取到用户所请求到的投票的详细信息，通过polls对象的id来获取，get方法
 //TODO 验证用户否登录以及有相应的权限 返回的json为choice的list,choice id对应的数量以及polls对象
@@ -18,15 +19,25 @@ import javax.servlet.http.HttpSession;
 @RestController
 public class VoteDetailApi {
 
+    @Autowired
+    PollsService pollsService;
 
-    @PostMapping("/api/getVoteDetail")
-    public Message getVoteDetail(@RequestBody IdJson id, HttpSession session) {
+
+    @GetMapping("/api/getVoteDetail/{id}")
+    public VoteDetail getVoteDetail(HttpSession session, @PathVariable String id) {
         //确保用户登陆
         Integer userId = (Integer) session.getAttribute("USER_ID");
         if (userId == null) {
-            return new Message("请先登陆", false);
+            return null;
         }
-        return null;
+        //确保是自己的投票,使用id到数据库里查询
+        if (!Objects.equals(pollsService.getPollsById(Integer.parseInt(id)).getCreator_id(), userId)) {
+            return null;
+        }
+        VoteDetail voteDetail = pollsService.getVoteDetail(Integer.parseInt(id));
+        //返回对应的投票的详细信息
+        return voteDetail;
+
     }
 
 }

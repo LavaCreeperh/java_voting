@@ -2,13 +2,18 @@ package net.lavacreeper.vote.service.impl;
 
 import net.lavacreeper.vote.dao.ChoiceDao;
 import net.lavacreeper.vote.dao.PollsDao;
+import net.lavacreeper.vote.dao.VoteDao;
 import net.lavacreeper.vote.domain.Choices;
+import net.lavacreeper.vote.domain.NumberOfChoice;
 import net.lavacreeper.vote.domain.Polls;
+import net.lavacreeper.vote.domain.VoteDetail;
 import net.lavacreeper.vote.service.PollsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -17,6 +22,8 @@ public class PollsServiceImpl implements PollsService {
     PollsDao pollsDao;
     @Autowired
     ChoiceDao choiceDao;
+    @Autowired
+    VoteDao voteDao;
 
 
     @Override
@@ -79,6 +86,22 @@ public class PollsServiceImpl implements PollsService {
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    @Override
+    public VoteDetail getVoteDetail(Integer id) {
+        //造一个VoteDetail对象
+        VoteDetail voteDetail = new VoteDetail();
+        //先获取polls
+        voteDetail.setPolls(pollsDao.getPollsById(id));
+        //再获取choices
+        List<Choices> choices = choiceDao.getByPollsId(id);
+        List<NumberOfChoice> numberOfChoices = new ArrayList<>();
+        for (Choices choice : choices) {
+            numberOfChoices.add(new NumberOfChoice(choice.getId(), voteDao.getVoteCount(choice.getId()), choice.getDescription()));
+        }
+        voteDetail.setChoiceNumbers(numberOfChoices);
+        return voteDetail;
     }
 
 

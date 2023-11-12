@@ -36,7 +36,10 @@ class VoteApplicationTests {
 //    void testgetByPollsId(){
 //        System.out.println(choiceService.getByPollsId());
 //    }
-
+@Test
+void testGetVoteDetail() {
+    System.out.println(pollsService.getVoteDetail(16));
+}
     @Test
     void TestChoiceDao() {
         choiceDao.update(26, "test");
@@ -76,15 +79,13 @@ class VoteApplicationTests {
     void test_createPoll() {
 
         Polls polls = new Polls();
-        polls.setQuestion("珈乐今天吃什么？");
+        polls.setQuestion("李奕今天吃什么？");
         polls.setCreator_id(1);
         polls.setEnd_date("2024-11-12 12:12:12");
         List<Choices> choices = new ArrayList<>();
-        choices.add(new Choices("麻辣烫"));
-        choices.add(new Choices("麻辣香锅"));
-        choices.add(new Choices("烤肉"));
-        choices.add(new Choices("烤鱼"));
-        choices.add(new Choices("烤鸭"));
+        choices.add(new Choices("中药"));
+        choices.add(new Choices("西药"));
+        choices.add(new Choices("中西药"));
         boolean result;
         try {
             boolean res = pollsService.createPollsByJson(polls, choices, 1);

@@ -4,7 +4,29 @@ import java.util.List;
 
 public class VoteDetail {
     private Polls polls;
-    private List<Choices> choices;
+    private List<NumberOfChoice> ChoiceNumbers;
 
-    //TODO 一个专用的对象，用来存储choices id和对应的票数
+    @Override
+    public String toString() {
+        return "VoteDetail{" +
+                "polls=" + polls +
+                ", ChoiceNumbers=" + ChoiceNumbers +
+                '}';
+    }
+
+    public Polls getPolls() {
+        return polls;
+    }
+
+    public void setPolls(Polls polls) {
+        this.polls = polls;
+    }
+
+    public List<NumberOfChoice> getChoiceNumbers() {
+        return ChoiceNumbers;
+    }
+
+    public void setChoiceNumbers(List<NumberOfChoice> choiceNumbers) {
+        ChoiceNumbers = choiceNumbers;
+    }
 }

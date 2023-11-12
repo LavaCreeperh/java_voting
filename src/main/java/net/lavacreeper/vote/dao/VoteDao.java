@@ -12,4 +12,7 @@ public interface VoteDao {
 
     @Select("SELECT COUNT(*) FROM votes WHERE user_id=#{user_id} AND poll_id=#{poll_id}")
     public int hasVoted(Integer user_id, Integer poll_id);
+
+    @Select("SELECT COUNT(*) FROM votes WHERE choice_id=#{choice_id}")
+    public int getVoteCount(Integer choice_id);
 }

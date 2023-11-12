@@ -14,8 +14,10 @@
     <a href="/create" class="btn btn-success mb-3">Create New Poll</a>
     <div id="pollsList" class="mt-4"></div>
 </div>
-<!--TODO 增加一个查看详情的按钮-->
+<!--TODO 增加一个查看详情的按钮去到页面/main/polls/{id} 点击那个就是哪个的-->
 <!--TODO 点击删除按钮之后，需要提醒用户是否确认，确认后，才能进行后续的删除逻辑-->
+<!--TODO 点击创建按钮之后，要到相应的创建页面格式为/main/newpoll-->
+<!--TODO 显示投票是否在有效期内,polls对象中获取-->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         fetch('/api/getPollsById')
@@ -28,13 +30,20 @@
                     data.forEach(function (poll) {
                         var pollElement = document.createElement('div');
                         pollElement.className = 'card mb-3';
+
+                        var currentDate = new Date();
+                        var endDate = new Date(poll.end_date);
+                        var isActive = currentDate <= endDate ? "Active" : "Expired";
+
                         pollElement.innerHTML = `
                             <div class="card-body">
                                 <h5 class="card-title">Poll: ${poll.question}</h5>
                                 <p class="card-text">Created at: ${poll.created_at}</p>
                                 <p class="card-text">End date: ${poll.end_date}</p>
+                                <p class="card-text">Status: ${isActive}</p>
                                 <button class="btn btn-danger deleteBtn" data-id="${poll.id}">Delete</button>
                                 <a href="/change/${poll.id}" class="btn btn-primary">Modify</a>
+                                <a href="/main/polls/${poll.id}" class="btn btn-info">View Details</a>
                             </div>
                         `;
                         pollsList.appendChild(pollElement);
@@ -77,5 +86,67 @@
             });
     }
 </script>
+
+<!--<script>-->
+<!--    document.addEventListener('DOMContentLoaded', function () {-->
+<!--        fetch('/api/getPollsById')-->
+<!--            .then(response => response.json())-->
+<!--            .then(data => {-->
+<!--                var pollsList = document.getElementById('pollsList');-->
+<!--                if (data.length === 0) {-->
+<!--                    pollsList.innerHTML = '<p>No polls created yet.</p>';-->
+<!--                } else {-->
+<!--                    data.forEach(function (poll) {-->
+<!--                        var pollElement = document.createElement('div');-->
+<!--                        pollElement.className = 'card mb-3';-->
+<!--                        pollElement.innerHTML = `-->
+<!--                            <div class="card-body">-->
+<!--                                <h5 class="card-title">Poll: ${poll.question}</h5>-->
+<!--                                <p class="card-text">Created at: ${poll.created_at}</p>-->
+<!--                                <p class="card-text">End date: ${poll.end_date}</p>-->
+<!--                                <button class="btn btn-danger deleteBtn" data-id="${poll.id}">Delete</button>-->
+<!--                                <a href="/change/${poll.id}" class="btn btn-primary">Modify</a>-->
+<!--                            </div>-->
+<!--                        `;-->
+<!--                        pollsList.appendChild(pollElement);-->
+<!--                    });-->
+<!--                    document.querySelectorAll('.deleteBtn').forEach(button => {-->
+<!--                        button.addEventListener('click', function () {-->
+<!--                            var pollId = this.getAttribute('data-id');-->
+<!--                            if (confirm('Are you sure you want to delete this poll?')) {-->
+<!--                                deletePoll(pollId);-->
+<!--                            }-->
+<!--                        });-->
+<!--                    });-->
+<!--                }-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error('Error fetching polls:', error);-->
+<!--                pollsList.innerHTML = '<p>Error loading polls.</p>';-->
+<!--            });-->
+<!--    });-->
+
+<!--    function deletePoll(pollId) {-->
+<!--        fetch('/api/deletePolls', {-->
+<!--            method: 'POST',-->
+<!--            headers: {-->
+<!--                'Content-Type': 'application/json',-->
+<!--            },-->
+<!--            body: JSON.stringify({id: pollId})-->
+<!--        })-->
+<!--            .then(response => {-->
+<!--                if (response.ok) {-->
+<!--                    alert('Poll deleted successfully!');-->
+<!--                    location.reload(); // Reload page to update the list of polls-->
+<!--                } else {-->
+<!--                    alert('Error deleting poll.');-->
+<!--                }-->
+<!--            })-->
+<!--            .catch(error => {-->
+<!--                console.error('Error:', error);-->
+<!--                alert('Error deleting poll.');-->
+<!--            });-->
+<!--    }-->
+<!--</script>-->
 </body>
 </html>

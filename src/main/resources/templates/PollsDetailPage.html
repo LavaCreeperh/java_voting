@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>投票详情</title>
+    <!-- 引入Bootstrap和Chart.js -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="container">
+    <h2 class="mt-5" id="pollQuestion">加载中...</h2>
+    <div id="pollDetails" class="mb-3">
+        <p><strong>创建者ID:</strong> <span id="creatorId"></span></p>
+        <p><strong>创建时间:</strong> <span id="createdAt"></span></p>
+        <p><strong>结束时间:</strong> <span id="endDate"></span></p>
+    </div>
+
+    <h4>投票选项及票数</h4>
+    <ul id="choiceList" class="list-group mb-4"></ul>
+
+    <h4>票数分布（柱状图）</h4>
+    <canvas id="barChart"></canvas>
+
+    <h4>票数占比（饼状图）</h4>
+    <canvas id="pieChart"></canvas>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const pollId = new URL(window.location.href).pathname.split('/').pop();
+
+        fetch(`/api/getVoteDetail/${pollId}`)
+            .then(response => response.json())
+            .then(data => {
+                displayPollDetails(data.polls);
+                displayChoices(data.choiceNumbers);
+                renderBarChart(data.choiceNumbers);
+                renderPieChart(data.choiceNumbers);
+            })
+            .catch(error => console.error('Error:', error));
+    });
+
+    function displayPollDetails(polls) {
+        document.getElementById('pollQuestion').innerText = polls.question;
+        document.getElementById('creatorId').innerText = polls.creator_id;
+        document.getElementById('createdAt').innerText = polls.created_at;
+        document.getElementById('endDate').innerText = polls.end_date;
+    }
+
+    function displayChoices(choiceNumbers) {
+        const totalVotes = choiceNumbers.reduce((acc, c) => acc + c.number, 0);
+        const choiceList = document.getElementById('choiceList');
+        choiceList.innerHTML = '';
+
+        choiceNumbers.forEach(c => {
+            if (c.choice_description && c.number !== null) {
+                const votePercentage = totalVotes ? (c.number / totalVotes * 100).toFixed(1) : 0;
+                const li = document.createElement('li');
+                li.classList.add('list-group-item');
+
+                // 创建进度条容器
+                const progressDiv = document.createElement('div');
+                progressDiv.classList.add('progress');
+
+                // 创建进度条
+                const progressBar = document.createElement('div');
+                progressBar.classList.add('progress-bar');
+                progressBar.setAttribute('role', 'progressbar');
+                progressBar.style.width = `${votePercentage}%`;
+                progressBar.setAttribute('aria-valuenow', votePercentage);
+                progressBar.setAttribute('aria-valuemin', '0');
+                progressBar.setAttribute('aria-valuemax', '100');
+                progressBar.textContent = `${votePercentage}%`;
+
+                // 将进度条添加到容器中
+                progressDiv.appendChild(progressBar);
+
+                // 将描述和进度条添加到列表项中
+                li.innerHTML = `${c.choice_description}: ${c.number} 票`;
+                li.appendChild(progressDiv);
+
+                // 将列表项添加到列表中
+                choiceList.appendChild(li);
+            }
+        });
+    }
+
+
+    function renderBarChart(choiceNumbers) {
+        const ctxBar = document.getElementById('barChart').getContext('2d');
+        const filteredChoices = choiceNumbers.filter(c => c.choice_description && c.number !== null);
+        new Chart(ctxBar, {
+            type: 'bar',
+            data: {
+                labels: filteredChoices.map(c => c.choice_description),
+                datasets: [{
+                    label: '票数',
+                    data: filteredChoices.map(c => c.number),
+                    backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                    borderColor: 'rgba(0, 123, 255, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    }
+
+    function getRandomColor() {
+        var hue = Math.floor(Math.random() * 360);
+        var pastel = 'hsl(' + hue + ', 100%, 87.5%)';
+        return pastel;
+    }
+
+    function renderPieChart(choiceNumbers) {
+        const totalVotes = choiceNumbers.reduce((sum, choice) => sum + (choice.number || 0), 0);
+        const filteredChoices = choiceNumbers.filter(c => c.choice_description && c.number !== null);
+        const ctxPie = document.getElementById('pieChart').getContext('2d');
+        const colors = filteredChoices.map(() => getRandomColor()); // 为每个选项生成随机颜色
+        new Chart(ctxPie, {
+            type: 'pie',
+            data: {
+                labels: filteredChoices.map(c => c.choice_description),
+                datasets: [{
+                    data: filteredChoices.map(c => c.number),
+                    backgroundColor: colors,
+                    borderColor: ['#fff'],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                tooltips: {
+                    callbacks: {
+                        label: function (tooltipItem, data) {
+                            let label = data.labels[tooltipItem.index] || '';
+                            if (label) {
+                                label += ': ';
+                            }
+                            const voteCount = data.datasets[0].data[tooltipItem.index];
+                            const percentage = totalVotes ? ((voteCount / totalVotes) * 100).toFixed(1) : 0;
+                            label += `${voteCount} votes (${percentage}%)`;
+                            return label;
+                        }
+                    }
+                }
+            }
+
+        });
+    }
+
+
+</script>
+</body>
+</html>
