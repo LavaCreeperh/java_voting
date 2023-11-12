@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
 
-//TODO 获取到用户所请求到的投票的详细信息，通过polls对象的id来获取，get方法
-//TODO 验证用户否登录以及有相应的权限 返回的json为choice的list,choice id对应的数量以及polls对象
+//获取到用户所请求到的投票的详细信息，通过polls对象的id来获取，get方法
+//验证用户否登录以及有相应的权限 返回的json为choice的list,choice id对应的数量以及polls对象
 //返回值为一个polls对象，和一个choice的list，还有一个vote的list
 //获取到的vote对应的choiceid，通过choiceid获取到每个choice具体的数量，这个由前端来做
 @RestController

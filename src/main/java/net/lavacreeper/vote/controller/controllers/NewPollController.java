@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  * @package: net.lavacreeper.vote.controller.controllers
  * @className: NewPollController
  * @author: LavaCreeper
- * @description: TODO
+ * @description:
  * @date: 11/12/23 5:20 PM
  * @version: 1.0
  */
