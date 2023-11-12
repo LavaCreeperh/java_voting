@@ -31,6 +31,9 @@ public class Polls {
         return created_at;
     }
 
+    public Polls() {
+    }
+
     @Override
     public String toString() {
         return "Polls{" +

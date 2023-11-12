@@ -24,7 +24,7 @@ public class CreatePollApi {
     @PostMapping("/api/createPoll")
     public Message createPoll(@RequestBody PollFullJson pollFullJson, HttpSession session) {
         //确保非空
-        Integer user_id = (Integer) session.getAttribute("user_id");
+        Integer user_id = (Integer) session.getAttribute("USER_ID");
         if (user_id == null) {
             return new Message("请先登陆", false);
         }

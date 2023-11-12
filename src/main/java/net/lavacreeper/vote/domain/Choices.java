@@ -34,6 +34,9 @@ public class Choices {
                 '}';
     }
 
+    public Choices() {
+    }
+
     public Integer getId() {
         if (id!=null){
             return id;
