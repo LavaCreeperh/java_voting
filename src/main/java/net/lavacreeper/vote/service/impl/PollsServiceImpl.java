@@ -50,8 +50,7 @@ public class PollsServiceImpl implements PollsService {
             pollsDao.delete(id);
             return true;
         } catch (Exception e) {
-            System.out.println(e);
-            return false;
+            throw e;
         }
     }
 

@@ -15,7 +15,7 @@ public class CheckIfUsernameExists {
     @Autowired
     UserService userService;
 
-
+    //TODO 改为get方法
     @PostMapping("/api/exist")
     public IfExistsApiMessage checkIfUsernameExists(@RequestBody UsernameJson username) {
         if (!username.getUsername().matches("^[A-Za-z0-9]+$")) {
