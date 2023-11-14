@@ -16,8 +16,8 @@
 </div>
 <!--增加一个查看详情的按钮去到页面/main/polls/{id} 点击那个就是哪个的-->
 <!--点击删除按钮之后，需要提醒用户是否确认，确认后，才能进行后续的删除逻辑-->
-<!--TODO 点击创建按钮之后，要到相应的创建页面格式为/main/newpoll-->
-<!--TODO 显示投票是否在有效期内,polls对象中获取-->
+<!--DONE 点击创建按钮之后，要到相应的创建页面格式为/main/newpoll-->
+<!--DONE 显示投票是否在有效期内,polls对象中获取-->
 <script>
     document.addEventListener('DOMContentLoaded', function () {
         fetch('/api/getPollsById')

@@ -26,8 +26,8 @@ public class UpdatePoll {
 
     //对发送过来对json的要求是必须有polls和choices两个字段，其中polls是一个polls对象，choices是一个choice对象的数组
 //其中，choice和polls的id必须是已经存在的，而且choice的poll_id必须是polls的id
-    //TODO 在修改中添加选项的功能，没有id的choice为新建，有id的choice为更新
-    //TODO 删除的选项在单独的api中实现
+    //DONE 在修改中添加选项的功能，没有id的choice为新建，有id的choice为更新
+    //DONE 删除的选项在单独的api中实现
     @PostMapping("/api/updatePoll")
     public Message updatePoll(@RequestBody PollFullJson pollFullJson, HttpSession session) {
         // 1.校验用户的权限(这个poll属于当前session获取到的用户)
@@ -43,9 +43,9 @@ public class UpdatePoll {
             Polls poll = pollFullJson.getPolls();
             List<Choices> choices = new ArrayList<>(pollFullJson.getChoices());
         //2.确认choice全部为属于这个poll
-            //TODO 没有的choice为新建，有id的choice为更新
+            //DONE 没有的choice为新建，有id的choice为更新
         for (Choices choice : choices) {
-            if (!Objects.equals(choiceService.getChoiceById(choice.getId()).getPoll_id(), poll.getId()) || (choiceService.getChoiceById(choice.getId()).getPoll_id() == null)) {
+            if (choice.getId() == null || !Objects.equals(choiceService.getChoiceById(choice.getId()).getPoll_id(), poll.getId()) || (choiceService.getChoiceById(choice.getId()).getPoll_id() == null)) {
                 return new Message("非法传入", false);
             }
         }
