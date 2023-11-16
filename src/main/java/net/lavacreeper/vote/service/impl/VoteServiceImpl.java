@@ -29,6 +29,7 @@ public class VoteServiceImpl implements VoteService {
     @Transactional(rollbackFor = Exception.class)
     public Message vote(Integer user_id, Integer choice_id) {
         // 验证用户有没有投过票
+        //TODO 验证是否存在这个choice
         try {
             if (voteDao.hasVoted(user_id, choiceDao.getChoiceById(choice_id).getPoll_id()) != 0) {
                 return new Message("你已经投过票了", false);
@@ -58,7 +59,7 @@ public class VoteServiceImpl implements VoteService {
                 return new Message("已投票", true);
 
             } else {
-                return new Message("未投票", false);
+                return new Message("未投票", true);
             }
 
         } catch (Exception e) {

@@ -19,6 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class VotePage {
     @GetMapping("/vote/{id}")
     public String vote(@PathVariable String id) {
-        return "vote";
+        return "VotePage";
     }
 }

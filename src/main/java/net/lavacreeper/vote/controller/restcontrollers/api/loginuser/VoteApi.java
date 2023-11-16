@@ -17,6 +17,7 @@ public class VoteApi {
     @Autowired
     UserService userService;
 
+    //这个id是choiceid
     @GetMapping("/api/vote/{id}")
     public Message vote(HttpSession session, @PathVariable String id) {
         // 确保用户登陆
