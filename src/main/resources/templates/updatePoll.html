@@ -123,6 +123,7 @@
         var newChoiceDescription = $('#newChoice').val();
         if (newChoiceDescription) {
             updatedPollData.choices.push({description: newChoiceDescription, id: null});
+            $('#newChoice').val(''); // Clear the new choice input field
         }
 
         // Send update request to server
@@ -133,12 +134,13 @@
             },
             body: JSON.stringify(updatedPollData)
         })
-            .then(response => {
-                if (response.ok) {
-                    alert('Poll updated successfully');
+            .then(response => response.json()) // Parse JSON response
+            .then(data => {
+                if (data.success) {
+                    alert('Poll updated successfully: ' + data.message);
                     fetchPollData(); // Reload poll data
                 } else {
-                    alert('Error updating poll');
+                    alert('Error updating poll: ' + data.message);
                 }
             })
             .catch(error => {
@@ -146,6 +148,7 @@
                 alert('Error updating poll');
             });
     }
+
 
 </script>
 </body>

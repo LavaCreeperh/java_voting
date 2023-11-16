@@ -1,10 +1,109 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Register Page</title>
+    <!-- Include Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
+<div class="container">
+    <h2 class="mt-5">Register</h2>
+    <form id="registerForm">
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input type="text" class="form-control" id="username" pattern="^[A-Za-z0-9]+$"
+                   title="Username should only contain letters and numbers." required>
+        </div>
+        <div class="form-group">
+            <label for="email">Email:</label>
+            <input type="email" class="form-control" id="email" required>
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input type="password" class="form-control" id="password" required>
+        </div>
+        <div class="form-group">
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" class="form-control" id="confirmPassword" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+    </form>
+    <div class="mt-3">
+        <a href="/login">已有账号？登录</a>
+    </div>
+    <div id="responseMessage" class="mt-3"></div>
+</div>
 
+<script>
+    document.getElementById('username').addEventListener('blur', function () {
+        var username = this.value;
+
+        // 检查用户名是否符合要求
+        if (!username.match("^[A-Za-z0-9]+$")) {
+            updateResponseMessage('用户名只能包含字母和数字', false);
+            return;
+        }
+
+        // 调用后端 API 检查用户名是否存在
+        fetch('/api/exist/' + username)
+            .then(response => response.json())
+            .then(data => {
+                updateResponseMessage(data.message, !data.ifExists);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                updateResponseMessage('发生错误：' + error, false);
+            });
+    });
+
+    // 用于更新响应消息的辅助函数
+    function updateResponseMessage(message, isAvailable) {
+        var responseDiv = document.getElementById('responseMessage');
+        responseDiv.innerText = message;
+        responseDiv.style.color = isAvailable ? 'green' : 'red';
+    }
+
+    document.getElementById('registerForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+
+        var password = document.getElementById('password').value;
+        var confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password !== confirmPassword) {
+            document.getElementById('responseMessage').innerText = 'Passwords do not match.';
+            return;
+        }
+
+        var registerMessage = {
+            username: document.getElementById('username').value,
+            email: document.getElementById('email').value,
+            password: password
+        };
+
+        fetch('/api/register', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(registerMessage),
+        })
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success:', data);
+                document.getElementById('responseMessage').innerText = data.message;
+                if (data.success) {
+                    // Redirect to login page if registration is successful
+                    window.location.href = '/login';
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                document.getElementById('responseMessage').innerText = 'Error: ' + error;
+            });
+    });
+</script>
 </body>
 </html>
