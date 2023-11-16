@@ -5,7 +5,7 @@ package net.lavacreeper.vote.controller.restcontrollers.test;
  * @package: net.lavacreeper.vote.controller.restcontrollers.test
  * @className: Test
  * @author: LavaCreeper
- * @description: TODO
+ * @description:
  * @date: 11/13/23 10:06 AM
  * @version: 1.0
  */

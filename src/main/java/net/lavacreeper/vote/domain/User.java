@@ -11,7 +11,9 @@ public class User {
         this.email = email;
         //密码设置为sha256加密后的字符串
         this.password = password;
+
     }
+
 
     public Integer getId() {
         if (id!=null){

@@ -3,10 +3,7 @@ package net.lavacreeper.vote.service.impl;
 import net.lavacreeper.vote.dao.ChoiceDao;
 import net.lavacreeper.vote.dao.PollsDao;
 import net.lavacreeper.vote.dao.VoteDao;
-import net.lavacreeper.vote.domain.Choices;
-import net.lavacreeper.vote.domain.NumberOfChoice;
-import net.lavacreeper.vote.domain.Polls;
-import net.lavacreeper.vote.domain.VoteDetail;
+import net.lavacreeper.vote.domain.*;
 import net.lavacreeper.vote.service.PollsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,9 +30,20 @@ public class PollsServiceImpl implements PollsService {
     }
 
     @Override
+    public PollFullJson getPollFullJsonById(Integer id) {
+        Polls polls = pollsDao.getPollsById(id);
+        List<Choices> choices = choiceDao.getByPollsId(id);
+        PollFullJson pollFullJson = new PollFullJson();
+        pollFullJson.setPolls(polls);
+        pollFullJson.setChoices(choices);
+        return pollFullJson;
+    }
+
+    @Override
     public Polls getPollsById(Integer id) {
         return pollsDao.getPollsById(id);
     }
+
 
     //以下是通过userid获取到Polls
     @Override
@@ -60,12 +68,17 @@ public class PollsServiceImpl implements PollsService {
         try {
             pollsDao.update(polls.getId(), polls.getQuestion());
             for (Choices choice : choices) {
+                if (choice.getId() == null) {
+                    choice.setPoll_id(polls.getId());
+                    choiceDao.save(choice);
+                    continue;
+                }
                 choiceDao.update(choice.getId(), choice.getDescription());
             }
         } catch (Exception e) {
             return false;
         }
-        return false;
+        return true;
     }
 
     @Override

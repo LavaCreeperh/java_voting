@@ -5,9 +5,7 @@ import net.lavacreeper.vote.domain.Message;
 import net.lavacreeper.vote.service.ChoiceService;
 import net.lavacreeper.vote.service.PollsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Objects;
@@ -19,9 +17,9 @@ public class DeleteChoiceApi {
     @Autowired
     PollsService pollsService;
 
-    @PostMapping("/api/deleteChoice")
+    @GetMapping("/api/deleteChoice/{ChoiceId}")
     //id是choice的id
-    public Message deleteChoice(@RequestBody Integer id, HttpSession session) {
+    public Message deleteChoice(@PathVariable String ChoiceId, HttpSession session) {
 
         // 删除choice
         try {
@@ -31,6 +29,7 @@ public class DeleteChoiceApi {
                 return new Message("请先登陆", false);
             }
             //确保用户是这个choice所属poll的创建者
+            Integer id = Integer.parseInt(ChoiceId);
             Integer pollId = choiceService.getChoiceById(id).getPoll_id();
             if (!Objects.equals(pollsService.getPollsById(pollId).getCreator_id(), user_id)) {
                 return new Message("你不是这个投票的创建者", false);

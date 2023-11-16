@@ -1,6 +1,7 @@
 package net.lavacreeper.vote.service;
 
 import net.lavacreeper.vote.domain.Choices;
+import net.lavacreeper.vote.domain.PollFullJson;
 import net.lavacreeper.vote.domain.Polls;
 import net.lavacreeper.vote.domain.VoteDetail;
 import org.apache.tomcat.jni.Poll;
@@ -16,6 +17,8 @@ import java.util.List;
 //                                       `end_date` TIMESTAMP NOT NULL, 结束时间
 public interface PollsService {
     public boolean save(Polls polls);
+
+    public PollFullJson getPollFullJsonById(Integer id);
 
     public Polls getPollsById(Integer id);
 

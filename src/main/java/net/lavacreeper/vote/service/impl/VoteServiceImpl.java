@@ -33,7 +33,7 @@ public class VoteServiceImpl implements VoteService {
             if (voteDao.hasVoted(user_id, choiceDao.getChoiceById(choice_id).getPoll_id()) != 0) {
                 return new Message("你已经投过票了", false);
             }
-            //TODO 验证是否过期
+            //DONE 验证是否过期
             String end_date = pollDao.getPollsById(choiceDao.getChoiceById(choice_id).getPoll_id()).getEnd_date();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             Date date = sdf.parse(end_date);

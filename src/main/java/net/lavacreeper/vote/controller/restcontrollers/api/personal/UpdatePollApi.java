@@ -18,24 +18,26 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
-public class UpdatePoll {
+public class UpdatePollApi {
     @Autowired
     PollsService pollsService;
     @Autowired
     ChoiceService choiceService;
+
 
     //对发送过来对json的要求是必须有polls和choices两个字段，其中polls是一个polls对象，choices是一个choice对象的数组
 //其中，choice和polls的id必须是已经存在的，而且choice的poll_id必须是polls的id
     //DONE 在修改中添加选项的功能，没有id的choice为新建，有id的choice为更新
     //DONE 删除的选项在单独的api中实现
     @PostMapping("/api/updatePoll")
-    public Message updatePoll(@RequestBody PollFullJson pollFullJson, HttpSession session) {
+    public Message updatePollApi(@RequestBody PollFullJson pollFullJson, HttpSession session) {
         // 1.校验用户的权限(这个poll属于当前session获取到的用户)
         try {
             Integer user_id = (Integer) session.getAttribute("USER_ID");
             if (user_id == null) {
                 return new Message("请先登陆", false);
             }
+            //TODO 确保用户是这个poll的创建者
             if (!Objects.equals(pollsService.getPollsById(pollFullJson.getPolls().getId()).getCreator_id(), user_id)) {
                 return new Message("你不是这个投票的创建者", false);
             }
@@ -45,7 +47,7 @@ public class UpdatePoll {
         //2.确认choice全部为属于这个poll
             //DONE 没有的choice为新建，有id的choice为更新
         for (Choices choice : choices) {
-            if (choice.getId() == null || !Objects.equals(choiceService.getChoiceById(choice.getId()).getPoll_id(), poll.getId()) || (choiceService.getChoiceById(choice.getId()).getPoll_id() == null)) {
+            if ((choice.getId() != null) && (!Objects.equals(choiceService.getChoiceById(choice.getId()).getPoll_id(), poll.getId()) || (choiceService.getChoiceById(choice.getId()).getPoll_id() == null))) {
                 return new Message("非法传入", false);
             }
         }

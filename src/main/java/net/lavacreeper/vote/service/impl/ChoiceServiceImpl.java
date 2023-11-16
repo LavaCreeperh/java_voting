@@ -49,9 +49,9 @@ public class ChoiceServiceImpl implements ChoiceService {
     public Message deleteByPollsId(Integer id) {
         try {
             pollsDao.delete(id);
-            for (Choices choices : choiceDao.getByPollsId(id)) {
-                choiceDao.delete(choices.getId());
-            }
+//            for (Choices choices : choiceDao.getByPollsId(id)) {
+//                choiceDao.delete(choices.getId());
+//            }
             return new Message("删除成功", true);
         } catch (Exception e) {
             throw new SaveException("删除失败");
