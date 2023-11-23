@@ -49,6 +49,7 @@
     }
 </style>
 <body>
+<!--DONE 显示多少人参与-->
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="/main">主页</a>
@@ -74,6 +75,8 @@
         <p><strong>创建者ID:</strong> <span id="creatorId"></span></p>
         <p><strong>创建时间:</strong> <span id="createdAt"></span></p>
         <p><strong>结束时间:</strong> <span id="endDate"></span></p>
+        <p><span id="pollCount"></span></p>
+
     </div>
 
     <h4>投票选项及票数</h4>
@@ -87,6 +90,27 @@
 </div>
 
 <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const urlSegments = window.location.pathname.split('/');
+        const pollId = urlSegments[urlSegments.length - 1];
+
+        const apiUrl = `/api/getPollCount/${pollId}`;
+
+        fetch(apiUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data !== -1) {
+                    document.getElementById('pollCount').innerText = '当前有' + data + "人参与投票";
+                } else {
+                    document.getElementById('pollCount').innerText = '发生错误或未认证';
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching poll count:', error);
+                document.getElementById('pollCount').innerText = 'Error fetching data';
+            });
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
         document.getElementById('logoutButton').addEventListener('click', function () {
             fetch('/api/logout', {

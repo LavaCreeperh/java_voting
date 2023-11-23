@@ -1,5 +1,6 @@
 package net.lavacreeper.vote.controller.restcontrollers.api.personal;
 
+import net.lavacreeper.vote.domain.Polls;
 import net.lavacreeper.vote.service.PollsService;
 import net.lavacreeper.vote.service.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +37,9 @@ public class GetPollCount {
         if (user_id == null) {
             return -1;
         }
+        Integer creator_id = pollsService.getPollsById(poll_id).getCreator_id();
         //判断是否属于这个用户
-        if (pollsService.getPollsById(poll_id).getId().equals(user_id)) {
+        if (creator_id.equals(user_id)) {
             return voteService.getVoteCount(poll_id);
         } else {
             return -1;
