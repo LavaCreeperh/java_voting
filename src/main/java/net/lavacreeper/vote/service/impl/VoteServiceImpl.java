@@ -55,10 +55,9 @@ public class VoteServiceImpl implements VoteService {
     }
 
 
-    //DONE 需要实现
     @Override
     public int getVoteCount(Integer question_id) {
-        return voteDao.getVoteCount(question_id);
+        return voteDao.getVoteCountNumberByPollId(question_id);
     }
 
     @Override
