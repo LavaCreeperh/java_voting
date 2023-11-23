@@ -6,6 +6,7 @@
     <!-- Include Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
@@ -29,6 +30,8 @@
             <label for="confirmPassword">Confirm Password:</label>
             <input type="password" class="form-control" id="confirmPassword" required>
         </div>
+        <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-callback="javascriptCallback"></div>
+        <input type="hidden" id="turnstileToken" name="turnstileToken">
         <button type="submit" class="btn btn-primary">Register</button>
     </form>
     <div class="mt-3">
@@ -38,6 +41,12 @@
 </div>
 
 <script>
+    function javascriptCallback(token) {
+        console.log('Received token:', token);
+        // 将 token 保存在某处，以便在提交表单时使用
+        document.getElementById('turnstileToken').value = token;
+    }
+
     document.getElementById('username').addEventListener('blur', function () {
         var username = this.value;
 
@@ -80,7 +89,8 @@
         var registerMessage = {
             username: document.getElementById('username').value,
             email: document.getElementById('email').value,
-            password: password
+            password: password,
+            turnstileToken: document.getElementById('turnstileToken').value
         };
 
         fetch('/api/register', {

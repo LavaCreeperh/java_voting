@@ -4,7 +4,6 @@ import net.lavacreeper.vote.domain.Choices;
 import net.lavacreeper.vote.domain.PollFullJson;
 import net.lavacreeper.vote.domain.Polls;
 import net.lavacreeper.vote.domain.VoteDetail;
-import org.apache.tomcat.jni.Poll;
 
 import java.util.List;
 
@@ -31,6 +30,8 @@ public interface PollsService {
     public boolean createPollsByJson(Polls polls, List<Choices> choices, Integer userId);
 
     public VoteDetail getVoteDetail(Integer id);
+
+    public int getPollsCount(Integer userId);
 
 
 }

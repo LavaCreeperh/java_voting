@@ -4,6 +4,17 @@ public class AuthMessage {
     private String username;
     private boolean rememberMe;
 
+    String turnstileToken;
+
+
+    public String getTurnstileToken() {
+        return turnstileToken;
+    }
+
+    public void setTurnstileToken(String turnstileToken) {
+        this.turnstileToken = turnstileToken;
+    }
+
     public boolean isRememberMe() {
         return rememberMe;
     }

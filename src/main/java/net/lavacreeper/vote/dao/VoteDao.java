@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 @Mapper
 public interface VoteDao {
 
+    @Select("SELECT COUNT(*) FROM votes WHERE poll_id=#{poll_id}")
+    public int getVoteCountNumberByPollId(Integer poll_id);
     @Insert("INSERT INTO votes (user_id,choice_id,poll_id) VALUES (#{user_id},#{choice_id},#{question_id})")
     public void vote(Integer user_id, Integer choice_id, Integer question_id);
 

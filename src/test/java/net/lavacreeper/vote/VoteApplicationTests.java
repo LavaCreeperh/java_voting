@@ -4,15 +4,14 @@ import net.lavacreeper.vote.dao.ChoiceDao;
 import net.lavacreeper.vote.dao.PollsDao;
 import net.lavacreeper.vote.dao.UserDao;
 import net.lavacreeper.vote.domain.*;
-import net.lavacreeper.vote.service.ChoiceService;
-import net.lavacreeper.vote.service.PollsService;
-import net.lavacreeper.vote.service.UserService;
-import net.lavacreeper.vote.service.VoteService;
+import net.lavacreeper.vote.service.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 @SpringBootTest
@@ -31,13 +30,26 @@ class VoteApplicationTests {
     VoteService voteService;
     @Autowired
     ChoiceDao choiceDao;
+    @Autowired
+    CFService cfService;
 
-//    @Test
-//    void testgetByPollsId(){
-//        System.out.println(choiceService.getByPollsId());
-//    }
-@Test
-void testGetVoteDetail() {
+    @Test
+    void testgetByPollsId() throws IOException {
+        System.out.println(cfService.check("123456"));
+    }
+
+    @Test
+    void homework() {
+//        System.out.println("1"+(2+3));
+//        HashMap<Integer,Integer> hashMap = new HashMap<>();
+//        hashMap.put(20,30);
+//        System.out.println(hashMap.getOrDefault(20,0));
+//        System.out.println(hashMap.get(20));
+
+    }
+
+    @Test
+    void testGetVoteDetail() {
     System.out.println(pollsService.getVoteDetail(16));
 }
     @Test

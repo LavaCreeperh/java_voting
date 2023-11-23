@@ -37,7 +37,7 @@ public class UpdatePollApi {
             if (user_id == null) {
                 return new Message("请先登陆", false);
             }
-            //TODO 确保用户是这个poll的创建者
+            //DONE 确保用户是这个poll的创建者
             if (!Objects.equals(pollsService.getPollsById(pollFullJson.getPolls().getId()).getCreator_id(), user_id)) {
                 return new Message("你不是这个投票的创建者", false);
             }

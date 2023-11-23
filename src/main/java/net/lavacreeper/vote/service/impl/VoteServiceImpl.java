@@ -29,8 +29,12 @@ public class VoteServiceImpl implements VoteService {
     @Transactional(rollbackFor = Exception.class)
     public Message vote(Integer user_id, Integer choice_id) {
         // 验证用户有没有投过票
-        //TODO 验证是否存在这个choice
+        //DONE 验证是否存在这个choice
         try {
+            //验证是否存在这个choice
+            if (choiceDao.getChoiceById(choice_id) == null) {
+                return new Message("不存在这个选项", false);
+            }
             if (voteDao.hasVoted(user_id, choiceDao.getChoiceById(choice_id).getPoll_id()) != 0) {
                 return new Message("你已经投过票了", false);
             }
@@ -48,6 +52,13 @@ public class VoteServiceImpl implements VoteService {
             throw new RuntimeException(e);
         }
 
+    }
+
+
+    //DONE 需要实现
+    @Override
+    public int getVoteCount(Integer question_id) {
+        return voteDao.getVoteCount(question_id);
     }
 
     @Override

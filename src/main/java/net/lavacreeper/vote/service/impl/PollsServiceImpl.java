@@ -116,5 +116,11 @@ public class PollsServiceImpl implements PollsService {
         return voteDetail;
     }
 
+    //DONE 需要实现
+    @Override
+    public int getPollsCount(Integer userId) {
+        return pollsDao.getPollsCount(userId);
+    }
+
 
 }

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpSession;
  * @package: net.lavacreeper.vote.controller.restcontrollers.api.loginuser
  * @className: GetPoll
  * @author: LavaCreeper
- * @description: TODO
+ * @description: DONE
  * @date: 11/16/23 2:11 PM
  * @version: 1.0
  */

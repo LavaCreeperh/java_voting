@@ -7,6 +7,7 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
 </head>
 <body>
 <div class="container">
@@ -24,6 +25,8 @@
             <input type="checkbox" class="form-check-input" id="rememberMe">
             <label class="form-check-label" for="rememberMe">Remember me</label>
         </div>
+        <div class="cf-turnstile" data-sitekey="1x00000000000000000000AA" data-callback="javascriptCallback"></div>
+        <input type="hidden" id="turnstileToken" name="turnstileToken">
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
     <div class="mt-3">
@@ -33,12 +36,18 @@
 </div>
 
 <script>
+    function javascriptCallback(token) {
+        console.log('Received token:', token);
+        // 将 token 保存在某处，以便在提交表单时使用
+        document.getElementById('turnstileToken').value = token;
+    }
     document.getElementById('loginForm').addEventListener('submit', function (event) {
         event.preventDefault();
 
         var authMessage = {
             username: document.getElementById('username').value,
             password: document.getElementById('password').value,
+            turnstileToken: document.getElementById('turnstileToken').value,
             rememberMe: document.getElementById('rememberMe').checked
         };
 

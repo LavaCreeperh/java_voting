@@ -3,7 +3,6 @@ package net.lavacreeper.vote.domain;
 public class RegisterJson {
     String username;
     String password;
-    String email;
 
     @Override
     public String toString() {
@@ -11,7 +10,19 @@ public class RegisterJson {
                 "username='" + username + '\'' +
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
+                ", turnstileToken='" + turnstileToken + '\'' +
                 '}';
+    }
+
+    String email;
+    String turnstileToken;
+
+    public String getTurnstileToken() {
+        return turnstileToken;
+    }
+
+    public void setTurnstileToken(String turnstileToken) {
+        this.turnstileToken = turnstileToken;
     }
 
     public String getUsername() {

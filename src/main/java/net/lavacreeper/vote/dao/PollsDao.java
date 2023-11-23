@@ -9,6 +9,9 @@ import java.util.List;
 
 @Mapper
 public interface PollsDao {
+
+    @Select("select count(*) from polls where id = #{userId}")
+    public int getPollsCount(Integer userId);
     @Insert("insert into polls (question, creator_id, end_date) VALUES (#{question}, #{creator_id},#{end_date})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id", statementType = StatementType.PREPARED)
     public void save(Polls polls);
