@@ -7,17 +7,41 @@
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body>
-
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/main">主页</a>
+        <div class="d-flex">
+            <button class="btn btn-outline-danger" id="logoutButton">登出</button>
+        </div>
+    </div>
+</nav>
 <div class="container">
     <h2 class="mt-5" id="pollTitle"></h2>
     <input type="text" id="editPollTitle" class="form-control mb-3" placeholder="Edit Poll Title">
     <div id="choicesList" class="mt-4"></div>
     <input type="text" id="newChoice" class="form-control my-3" placeholder="Add New Choice">
-    <button class="btn btn-primary" onclick="addChoice()">Add Choice</button>
-    <button class="btn btn-success" onclick="updatePoll()">Update Poll</button>
+    <button class="btn btn-primary" onclick="addChoice()">增加选项</button>
+    <button class="btn btn-success" onclick="updatePoll()">提交更新</button>
 </div>
 
 <script>
+    document.getElementById('logoutButton').addEventListener('click', function () {
+        fetch('/api/logout', {
+            method: 'GET'
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Logged out successfully');
+                } else {
+                    console.error('Logout failed');
+                }
+                // 刷新页面
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
     function getPollIdFromUrl() {
         var urlParts = window.location.pathname.split('/');
         return urlParts[urlParts.length - 1];

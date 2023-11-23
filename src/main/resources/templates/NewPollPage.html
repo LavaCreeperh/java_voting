@@ -7,6 +7,14 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
 </head>
 <body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="/main">主页</a>
+        <div class="d-flex">
+            <button class="btn btn-outline-danger" id="logoutButton">登出</button>
+        </div>
+    </div>
+</nav>
 <div class="container mt-4">
     <h2>新建投票</h2>
     <form id="pollForm">
@@ -42,7 +50,23 @@
     `;
         container.appendChild(newChoice);
     });
-
+    document.getElementById('logoutButton').addEventListener('click', function () {
+        fetch('/api/logout', {
+            method: 'GET'
+        })
+            .then(response => {
+                if (response.ok) {
+                    console.log('Logged out successfully');
+                } else {
+                    console.error('Logout failed');
+                }
+                // 刷新页面
+                window.location.reload();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+    });
     document.getElementById('pollForm').addEventListener('submit', async (e) => {
         e.preventDefault();
         const question = document.getElementById('questionInput').value;
