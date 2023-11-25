@@ -18,7 +18,7 @@ public class VoteApi {
     @Autowired
     CFService cfService;
 
-    //这个id是choiceid
+    //这个id是choice的id
     //DONE 修改方法为post，因为token长度过长(2048)
     //VoteMessage是一个json，包含id和token
     @PostMapping("/api/vote/")

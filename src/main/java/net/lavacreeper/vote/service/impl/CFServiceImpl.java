@@ -23,6 +23,7 @@ import java.util.Scanner;
  */
 @Service
 public class CFServiceImpl implements CFService {
+
     @Override
     public boolean check(String token) throws IOException {
         URL url = new URL("https://challenges.cloudflare.com/turnstile/v0/siteverify");
