@@ -66,7 +66,7 @@ public class PollsServiceImpl implements PollsService {
     @Transactional(rollbackFor = Exception.class)
     public boolean updatePollsByJson(Polls polls, List<Choices> choices) {
         try {
-            pollsDao.update(polls.getId(), polls.getQuestion());
+            pollsDao.update(polls.getId(), polls.getQuestion(), polls.getEnd_date());
             for (Choices choice : choices) {
                 if (choice.getId() == null) {
                     choice.setPoll_id(polls.getId());

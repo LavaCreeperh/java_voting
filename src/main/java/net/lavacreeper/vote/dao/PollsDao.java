@@ -19,8 +19,9 @@ public interface PollsDao {
     public List<Polls> getPollsByUserId(Integer userId);
     @Select("select * from polls where id = #{id}")
     public Polls getPollsById(Integer id);
-    @Update("update polls set question = #{question} where id = #{id}")
-    public boolean update(Integer id,String question);
+
+    @Update("update polls set question = #{question}, end_date = #{end_date} where id = #{id}")
+    public void update(Integer id, String question, String end_date);
 
     @Delete("delete from polls where id = #{id}")
     public boolean delete(Integer id);

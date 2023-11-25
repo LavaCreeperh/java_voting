@@ -29,6 +29,7 @@ public class UpdatePollApi {
 //其中，choice和polls的id必须是已经存在的，而且choice的poll_id必须是polls的id
     //DONE 在修改中添加选项的功能，没有id的choice为新建，有id的choice为更新
     //DONE 删除的选项在单独的api中实现
+    //DONE 增加修改投票截止时间的功能
     @PostMapping("/api/updatePoll")
     public Message updatePollApi(@RequestBody PollFullJson pollFullJson, HttpSession session) {
         // 1.校验用户的权限(这个poll属于当前session获取到的用户)

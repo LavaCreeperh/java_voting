@@ -18,6 +18,7 @@
 <div class="container">
     <h2 class="mt-5" id="pollTitle"></h2>
     <input type="text" id="editPollTitle" class="form-control mb-3" placeholder="Edit Poll Title">
+    <input type="datetime-local" id="editPollEndDate" class="form-control mb-3" placeholder="Edit Poll End Date">
     <div id="choicesList" class="mt-4"></div>
     <input type="text" id="newChoice" class="form-control my-3" placeholder="Add New Choice">
     <button class="btn btn-primary" onclick="addChoice()">增加选项</button>
@@ -66,6 +67,8 @@
     function displayPollData(data) {
         $('#pollTitle').text(data.polls.question);
         $('#editPollTitle').val(data.polls.question);
+        var endDate = new Date(data.polls.end_date).toISOString().slice(0, 16);
+        $('#editPollEndDate').val(endDate);
         pollData.polls = data.polls;
         pollData.choices = data.choices;
 
@@ -130,7 +133,8 @@
         var updatedPollData = {
             polls: {
                 id: pollData.polls.id,
-                question: $('#editPollTitle').val()
+                question: $('#editPollTitle').val(),
+                end_date: $('#editPollEndDate').val()
             },
             choices: []
         };

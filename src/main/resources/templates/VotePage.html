@@ -57,7 +57,7 @@
     }
 
 </style>
-<!--TODO 若已经投票或投票已结束，禁用提交按钮以及form check, 并显示选择的选项-->
+<!--DONE 若已经投票或投票已结束，禁用提交按钮以及form check, 并显示选择的选项-->
 <body>
 <div class="container mt-5">
     <div class="card">
@@ -130,13 +130,33 @@
     }
 
     function submitVote(choiceId) {
-        $.get(`/api/vote/${choiceId}/token/${document.getElementById('turnstileToken').value}`, function (response) {
-            $('#message').text(response.message);
-            if (response.success) {
-                location.reload();
+        // Prepare the data in the format expected by your backend
+        let data = {
+            id: choiceId,
+            token: document.getElementById('turnstileToken').value
+        };
+
+        // Use jQuery's AJAX function to send a POST request
+        $.ajax({
+            type: 'POST',
+            url: '/api/vote/', // URL for the POST request
+            contentType: 'application/json', // Specify the content type
+            data: JSON.stringify(data), // Convert the data object to JSON string
+            success: function (response) {
+                // Handle the response from the server
+                $('#message').text(response.message);
+                if (response.success) {
+                    location.reload();
+                }
+            },
+            error: function (xhr, status, error) {
+                // Handle any error that occurred during the request
+                console.error("Error in POST request:", status, error);
+                $('#message').text('提交投票时出现错误');
             }
         });
     }
+
 
 </script>
 </body>
